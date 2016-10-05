@@ -1,0 +1,54 @@
+<script>
+
+{% if allbreaks %}
+
+	<div class="en_session en_break">
+		{% if first_slot.name notblank %}{{ first_slot.name }}{% else %}Break{% endif %}
+		({{ first_slot.duration }})
+	</div><!-- /all-breaks -->
+	
+{% else %}
+	{% for slot in slots %}
+		{% if slot.is_any_break? %}
+			{% unless breakfound == true %}
+				<div class="en_session en_break">
+					{% include 'system/schedule/roominfo' %}
+					{% if slot.name notblank %}{{ slot.name }}{% else %}Break{% endif %}
+					({{ slot.duration }})
+				</div><!-- /break -->
+				{% assign breakfound = true %}
+			{% endunless %}
+		{% else %}
+			{% if slot.is_plenary_session? %}
+				<div class="en_session en_plenary vevent">
+					{% if slot.proposal.confirmed %}
+						{% comment %}{% include 'system/schedule/personal_scheduler' %}
+						{% capture key %}ev{{event.id}}:prop{{slot.proposal.id}}-v{{slot.proposal.updated_at | strftime: "%Y%m%d_%H%M%S"}}session-liq:hide_topic{% endcapture %}
+						{% include 'system/schedule/session' with slot: slot, proposal: slot.proposal, hide_topic: 'yes', _ttl: 3600, _cache_key: key %}{% endcomment %}
+                                                
+                                                 localStorage.setItem( "{{slot.start_time_raw}}-{{slot.proposal.session_type}}-" + {{ slot.proposal.id}},{{ slot.proposal.name | quote_as_json }} + "|" + {{ slot.date_raw | strftime: '%A, %B %d' | quote_as_json }}  + "|" + {{ slot.date_raw | quote_as_json }} + "|" + {{ slot.start_time_raw | strftime: '%I:%M %p' | quote_as_json }} + "|" + {{ slot.start_time_raw | strftime: '%H:%M' | quote_as_json }} + "|" + {{ slot.start_time_raw | quote_as_json }} + "|" + {{ slot.proposal.session_type | quote_as_json }} + "|" + {{ slot.room.name | quote_as_json }} );
+                                                
+				  	{% else %}
+						{% include 'system/schedule/roominfo' with slot: slot, hide_topic: 'yes' %}
+						<span class="summary">{% if slot.name notblank %}{{ slot.name }} {% endif %}TBC</span>
+					{% endif %}
+				</div><!-- /plenary -->
+		 	{% else %}
+				<div class="en_session vevent">
+					{% if slot.proposal.confirmed %}
+						{% comment %}{% include 'system/schedule/personal_scheduler' %}
+						{% capture key %}ev{{event.id}}:prop{{slot.proposal.id}}-v{{slot.proposal.updated_at | strftime: "%Y%m%d_%H%M%S"}}:session-liq{% endcapture %}
+						{% include 'system/schedule/session' with slot: slot, proposal: slot.proposal, _ttl: 3600, _cache_key: key %}{% endcomment %}
+                                                
+                                                 localStorage.setItem( "{{slot.start_time_raw}}-{{slot.proposal.session_type}}-" + {{ slot.proposal.id}},{{ slot.proposal.name | quote_as_json }} + "|" + {{ slot.date_raw | strftime: '%A, %B %d' | quote_as_json }}  + "|" + {{ slot.date_raw | quote_as_json }} + "|" + {{ slot.start_time_raw | strftime: '%I:%M %p' | quote_as_json }} + "|" + {{ slot.start_time_raw | strftime: '%H:%M' | quote_as_json }} + "|" + {{ slot.start_time_raw | quote_as_json }} + "|" + {{ slot.proposal.session_type | quote_as_json }} + "|" + {{ slot.room.name | quote_as_json }} );
+                                                
+					{% else %}
+						{% include 'system/schedule/roominfo' with slot: slot, proposal: slot.proposal %}
+						<span class="summary">{% if slot.name notblank %}{{ slot.name }} {% endif %}TBC</span>
+					{% endif %}
+				</div><!-- /session -->
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+{% endif %}
+</script>

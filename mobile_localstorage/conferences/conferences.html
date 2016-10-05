@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<head>
+  <title>LocalStorage Test</title>
+
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="conferences3.css">
+<link rel="stylesheet" href="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+
+</head>
+<body>
+
+<div id="header" style="background-color: #cc122b; height: 40px;"><img src="images/StrataHeader.jpg" width="125px" height="40px" alt="Strata Logo"></div>
+
+<!-- Tabs -->
+<div data-role="tabs" id="tabs">
+  <div data-role="navbar">
+    <ul>
+      <li><a href="conferences.html" data-ajax="false">home</a></li>
+      <li><a href="keynote.html?typevalue=Keynote" data-ajax="false">keynotes</a></li>
+      <li><a href="session.html?typevalue=40-minute Session" data-ajax="false">sessions</a></li>
+      <li><a href="tutorial.html?typevalue=Tutorial" data-ajax="false">tutorials</a></li>
+      <li><a href="authors.html?typevalue=Author Signing" data-ajax="false">authors</a></li>
+      <li><a href="officehour.html?typevalue=Office Hour" data-ajax="false">office hour</a></li>
+    </ul>
+    <!--<ul>
+      <li><input type="button" value="Reload JSON" onclick="getJSON();"></li>
+      <li><input type="button" value="Clear LocalStorage" onclick="clearData();"></li>
+      <li><input type="button" value="Clear Cache" onclick="clearCache();"></li>
+    </ul>-->
+    <ul>
+      <li><a href="#" value="Reload JSON" onclick="getJSON();">Reload JSON</a></li>
+      <li><a href="#" value="Clear LocalStorage" onclick="clearData();">Clear LocalStorage</a></li>
+      <li><a href="#" value="Clear Cache" onclick="clearCache();">Clear Cache</a></li>
+    </ul>
+  </div>
+  <div id="home" class="ui-body-d ui-content" style="font-size: 10px;">
+      <h3>Offline Storage Test</h3>
+      <ul>This is a test to:
+        <li>Read a conference schedule JSON feed.</li>
+        <li>Load the JSON data into local storage.</li>
+        <li>Use application cache to save the .css, .js, and some .html files.</li>
+        <li>Reload conference schedule data from local storage when offline.</li>
+      </ul><br />
+      <ul>Features to add next:
+        <li>Restyle schedule listing as vertical items.</li>
+        <li>Upon expanding schedule listing, show venue, speaker, dates, times, and description.</li>
+        <li>Update manifest cache files upon file-change detection</li>
+        <li>Add alerts for users to indicate whether they are seeing current or cached schedule data.</li>
+      </ul>
+  </div>
+</div>
+
+<!-- Javascript -->
+<!--<script src="//code.jquery.com/jquery-1.9.1.js"></script>-->
+<!--<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>-->
+<script src="//cdn.oreillystatic.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+<script src="conferences_offline2.js"></script>
+</body>
+</html>

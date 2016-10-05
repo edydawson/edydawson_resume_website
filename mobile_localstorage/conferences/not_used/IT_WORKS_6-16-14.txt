@@ -1,0 +1,81 @@
+{% capture current_date %}{{'now' | date: "%Y-%m-%d"}}{% endcapture %}
+
+{% assign first_slot = true %}
+<script type="text/javascript" charset="utf-8">
+
+var isOnline = navigator.onLine;
+
+if(isOnline == true) {
+  console.log("online");
+  if(localStorage.length != 0) {
+    retrieveValueFromURL();
+  }
+  else {
+    retrieveValueFromURL();
+  }
+}
+else {
+  retrieveValueFromURL();
+}
+
+{% comment %} Add data to localStorage {% endcomment %}
+ {% for room in event.rooms %}
+            {% for day in event.days %}
+                {{ room | slots_on_date: day | assign_to: "slots" }}
+                {% for slot in slots %}
+                      {% if slot.proposal != nil and slot.proposal.session_type != nil %}
+                            localStorage.setItem( "{{slot.proposal.session_type}}-" + {{ slot.proposal.id}},{{ slot.proposal.name | quote_as_json }} + "|" + {{ slot.date_raw | strftime: '%A, %B %d' | quote_as_json }}  + "|" + {{ slot.date_raw | quote_as_json }} + "|" + {{ slot.start_time_raw | strftime: '%I:%M %p' | quote_as_json }} + "|" + {{ slot.start_time_raw | strftime: '%H:%M' | quote_as_json }} + "|" + {{ slot.start_time_raw | quote_as_json }} + "|" + {{ slot.proposal.session_type | quote_as_json }} + "|" + {{ slot.room.name | quote_as_json }} );
+                      {% endif %}
+                {% endfor %}
+            {% endfor %}
+{% endfor %}
+
+
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+
+function retrieveValueFromURL() {
+  var typevalue = getURLParameter("typevalue");
+  retrieveValueFromLocalStorage(typevalue);
+}
+
+function retrieveValueFromLocalStorage(typevalue) {
+
+  for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if(key.indexOf(typevalue) !== -1) {
+        var strKey = key;
+        var strValue = localStorage.getItem(key);
+       displayFromLocalStorage(strKey,strValue,typevalue);
+      }
+  }
+}
+
+function displayFromLocalStorage(key, value,     ) {
+
+  // create an array of values from localStorage
+  var valueToCells = value.split('|'); 
+
+  // assign each value to a column name
+   var name = valueToCells[0];
+   var date = valueToCells[1];
+   var date_id = valueToCells[2];
+   var time = valueToCells[3];
+   var sort_time = valueToCells[4];
+   var time_raw = valueToCells[5];
+   var session_type = valueToCells[6];
+   var location = valueToCells[7];
+
+   var any = document.createElement('div');
+   document.body.appendChild(any);
+   any.class="tablist-content";
+   any.innerHTML = "<p><strong>" + name + "</strong></p>";
+   document.getElementById("mid").appendChild(any);
+}  
+</script>
+
+
+
