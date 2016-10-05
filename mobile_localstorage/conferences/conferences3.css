@@ -1,0 +1,39 @@
+#keynoteTable {
+  font-size: 12px;
+}
+
+#red {
+    color: #80223E;
+    font-weight: bold;
+}
+
+#grey {
+    color: #A8A8A8;
+    font-weight: bold;
+}
+
+ul,li { list-style-type: none;
+        list-style-position:inside;
+        margin:0;
+        padding:0;
+}
+
+blockquote { 
+        margin:0;
+        padding:0;
+}
+
+td {
+        font:11px/14px verdana, arial, helvetica, sans-serif;
+        line-height: 155%;
+}
+
+.ui-grid-a>:nth-child(n) {
+    width: 16.67%;
+    margin-right: -.5px;
+}
+
+
+.report_table table { border-collapse:collapse; }
+.report_table table, td { border-bottom: 1px solid #ebedef; padding-top: 2px; padding-bottom: 2px; text-align: left; font-size: 11px; }
+.report_table th { background-color: #bfc2c4; color:white; font-weight: bold; padding-top: 2px; padding-bottom:2px; vertical-align: top; }
